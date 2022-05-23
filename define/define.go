@@ -11,7 +11,7 @@ type UserClaim struct {
 	jwt.StandardClaims
 }
 
-var JwtKey = "net-disk-key"
+var JwtKey = "cloud-disk-key"
 var EmailPassword = "QMHFCTQOAJDGGBMG"
 var CodeLength = 6
 
