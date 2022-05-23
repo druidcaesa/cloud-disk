@@ -32,12 +32,13 @@ func (l *LoginLogic) Login(req *types.LoginRequest) (resp *types.LoginResponse, 
 	// 登录逻辑
 	user := new(models.User)
 	// 读取数据库数据
-	get, err := l.svcCtx.Engine.Where("user_name = ? AND password = ?", req.UserName, utils.Md5ToString(req.Password)).Get(user)
+	user, err = user.GetUserByUsername(req.UserName, l.svcCtx.Engine)
 	if err != nil {
-		return nil, err
+		resp.Result = result.ERROR(err.Error())
+		return resp, nil
 	}
-	if !get {
-		resp.Result = result.ERROR("用户名或密码错误")
+	if user.Password != utils.Md5ToString(req.Password) {
+		resp.Result = result.ERROR("密码错误")
 		return resp, nil
 	}
 	//生成token

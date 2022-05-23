@@ -36,9 +36,14 @@ type (
 	}
 	//用户详细数据
 	UserInfoRequest {
-		Identity string `json:"identity"`
 	}
 	UserInfoResponse {
+		Result
+	}
+	//文件上传数据定义
+	UploadFileRequest {
+	}
+	UploadFileResponse {
 		Result
 	}
 )
@@ -63,4 +68,15 @@ service cloud-api {
 	//查询用户详情
 	@handler UserDetail
 	get /user/detail (UserInfoRequest) returns (UserInfoResponse)
+}
+
+@server(
+	middleware: Auth
+	group: file
+)
+
+service cloud-api {
+	//文件上传
+	@handler UploadFile
+	get /file/upload (UploadFileRequest) returns (UploadFileResponse)
 }

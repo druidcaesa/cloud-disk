@@ -1,6 +1,8 @@
 package user
 
 import (
+	"cloud-disk/models"
+	"cloud-disk/result"
 	"context"
 
 	"cloud-disk/internal/svc"
@@ -25,6 +27,10 @@ func NewUserDetailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserDe
 
 func (l *UserDetailLogic) UserDetail(req *types.UserInfoRequest, userIdentity string) (resp *types.UserInfoResponse, err error) {
 	// 根据userIdentity获取用户详情
-
+	u := new(models.User)
+	userinfo := u.GetUserInfo(userIdentity, l.svcCtx.Engine)
+	resp = &types.UserInfoResponse{
+		Result: result.OK("操作成功", userinfo),
+	}
 	return
 }

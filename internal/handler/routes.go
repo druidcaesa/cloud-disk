@@ -4,6 +4,7 @@ package handler
 import (
 	"net/http"
 
+	file "cloud-disk/internal/handler/file"
 	user "cloud-disk/internal/handler/user"
 	"cloud-disk/internal/svc"
 
@@ -34,6 +35,19 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodGet,
 					Path:    "/user/detail",
 					Handler: user.UserDetailHandler(serverCtx),
+				},
+			}...,
+		),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.Auth},
+			[]rest.Route{
+				{
+					Method:  http.MethodGet,
+					Path:    "/file/upload",
+					Handler: file.UploadFileHandler(serverCtx),
 				},
 			}...,
 		),

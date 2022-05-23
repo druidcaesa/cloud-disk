@@ -28,9 +28,15 @@ type RegisterResponse struct {
 }
 
 type UserInfoRequest struct {
-	Identity string `json:"identity"`
 }
 
 type UserInfoResponse struct {
+	Result
+}
+
+type UploadFileRequest struct {
+}
+
+type UploadFileResponse struct {
 	Result
 }

@@ -6,6 +6,7 @@ require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/go-sql-driver/mysql v1.6.0
+	github.com/satori/go.uuid v1.2.0
 	github.com/zeromicro/go-zero v1.3.3
 	xorm.io/xorm v1.3.0
 )

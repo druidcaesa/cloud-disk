@@ -15,15 +15,18 @@ var JwtKey = "cloud-disk-key"
 var EmailPassword = "QMHFCTQOAJDGGBMG"
 var CodeLength = 6
 
-//验证码过器时间
+// CodeExpire 验证码过器时间
 var CodeExpire = 300
 
-//分页默认参数
+// PageSize 分页默认参数
 var PageSize = 20
 
-//go的格式化时间
+// DateTime go的格式化时间
 var DateTime = "2006-01-02 15:04:05"
 
-//token有效期
+// TokenExpire token有效期
 var TokenExpire = 3600
 var RefreshTokenExpire = 7200
+
+//gofastDfs的地址
+var GoFastUrl = "http://39.105.57.46:18080/group1"
