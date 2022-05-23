@@ -1,0 +1,51 @@
+syntax = "v1"
+
+info(
+	title: "cloud-api"
+	desc: "go-zero/go-fastdfs"
+	author: "Fan YaNan"
+	email: "hbsjzfynxm@gmail.com"
+	version: "0.0.1"
+)
+
+type (
+	Result {
+		Code    int         `json:"code"`
+		Data    interface{} `json:"data"`
+		Message string      `json:"message"`
+	}
+	//登录结构体
+	LoginRequest {
+		UserName string `json:"userName"`
+		Password string `json:"password"`
+	}
+	LoginResponse {
+		Result
+	}
+	//邮箱注册
+	RegisterRequest {
+		//用户名
+		UserName string `json:"userName"`
+		Password string `json:"password"`
+		Email    string `json:"email"`
+		//验证码
+		Code string `json:"code"`
+	}
+	RegisterResponse {
+		Result
+	}
+)
+@server(
+	group : open
+)
+service cloud-api {
+	@doc(
+		summary: "public interface"
+		desc: "register,login"
+	)
+	@handler Login
+	post /login (LoginRequest) returns (LoginResponse)
+	//邮箱注册
+	@handler Register
+	post /register (RegisterRequest) returns (RegisterResponse)
+}
