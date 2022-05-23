@@ -23,8 +23,8 @@ func NewUserDetailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserDe
 	}
 }
 
-func (l *UserDetailLogic) UserDetail(req *types.UserInfoRequest) (resp *types.UserInfoResponse, err error) {
-	// todo: add your logic here and delete this line
+func (l *UserDetailLogic) UserDetail(req *types.UserInfoRequest, userIdentity string) (resp *types.UserInfoResponse, err error) {
+	// 根据userIdentity获取用户详情
 
 	return
 }

@@ -18,7 +18,7 @@ func UserDetailHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := user.NewUserDetailLogic(r.Context(), svcCtx)
-		resp, err := l.UserDetail(&req)
+		resp, err := l.UserDetail(&req, r.Header.Get("UserIdentity"))
 		if err != nil {
 			httpx.Error(w, err)
 		} else {
