@@ -4,7 +4,7 @@ package handler
 import (
 	"net/http"
 
-	open "cloud-disk/internal/handler/open"
+	user "cloud-disk/internal/handler/user"
 	"cloud-disk/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -16,13 +16,26 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			{
 				Method:  http.MethodPost,
 				Path:    "/login",
-				Handler: open.LoginHandler(serverCtx),
+				Handler: LoginHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
 				Path:    "/register",
-				Handler: open.RegisterHandler(serverCtx),
+				Handler: RegisterHandler(serverCtx),
 			},
 		},
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.Auth},
+			[]rest.Route{
+				{
+					Method:  http.MethodGet,
+					Path:    "/user/detail",
+					Handler: user.UserDetailHandler(serverCtx),
+				},
+			}...,
+		),
 	)
 }

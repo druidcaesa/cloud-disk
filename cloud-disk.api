@@ -34,9 +34,13 @@ type (
 	RegisterResponse {
 		Result
 	}
-)
-@server(
-	group : open
+	//用户详细数据
+	UserInfoRequest {
+		Identity string `json:"identity"`
+	}
+	UserInfoResponse {
+		Result
+	}
 )
 service cloud-api {
 	@doc(
@@ -48,4 +52,15 @@ service cloud-api {
 	//邮箱注册
 	@handler Register
 	post /register (RegisterRequest) returns (RegisterResponse)
+}
+
+@server(
+	middleware: Auth
+	group: user
+)
+
+service cloud-api {
+	//查询用户详情
+	@handler UserDetail
+	get /user/detail (UserInfoRequest) returns (UserInfoResponse)
 }

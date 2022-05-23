@@ -26,3 +26,11 @@ type RegisterRequest struct {
 type RegisterResponse struct {
 	Result
 }
+
+type UserInfoRequest struct {
+	Identity string `json:"identity"`
+}
+
+type UserInfoResponse struct {
+	Result
+}

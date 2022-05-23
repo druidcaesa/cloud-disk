@@ -1,3 +1,15 @@
 Name: cloud-api
 Host: 0.0.0.0
-Port: 8888
+Port: 8080
+
+DataBase:
+  Type: "mysql"
+  Url: "root:nTQ3b5pRTp1YFkoI@tcp(39.105.57.46:13306)/net-disk?charset=utf8"
+  MaxIdleConns: 10
+  MaxOpenConns: 20
+  #是否显示sql语句
+  ShowSql: true
+Redis:
+  Addr: "39.105.57.46:16379"
+  Password: "nTQ3b5pRTp1YFkoI"
+  PoolSize: 10

@@ -1,24 +1,24 @@
-package open
+package handler
 
 import (
 	"net/http"
 
-	"cloud-disk/internal/logic/open"
+	"cloud-disk/internal/logic"
 	"cloud-disk/internal/svc"
 	"cloud-disk/internal/types"
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
-func RegisterHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func LoginHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.RegisterRequest
+		var req types.LoginRequest
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.Error(w, err)
 			return
 		}
 
-		l := open.NewRegisterLogic(r.Context(), svcCtx)
-		resp, err := l.Register(&req)
+		l := logic.NewLoginLogic(r.Context(), svcCtx)
+		resp, err := l.Login(&req)
 		if err != nil {
 			httpx.Error(w, err)
 		} else {
