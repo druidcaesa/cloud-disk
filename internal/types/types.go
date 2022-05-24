@@ -83,3 +83,21 @@ type UserFileListRequest struct {
 type UserFileListResponse struct {
 	Result
 }
+
+type UserFileNameEditRequest struct {
+	Identity string `json:"identity"`
+	Name     string `json:"name"`
+}
+
+type UserFileNameEditResponse struct {
+	Result
+}
+
+type UserDirCreateRequest struct {
+	ParentId int64  `json:"parentId"`
+	Name     string `json:"name"`
+}
+
+type UserDirCreateResponse struct {
+	Result
+}

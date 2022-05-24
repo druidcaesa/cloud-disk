@@ -44,6 +44,6 @@ func (l *UploadFileLogic) UploadFile(req *types.UploadFileRequest) (resp *types.
 	m["identity"] = rp.Identity
 	m["ext"] = rp.Ext
 	m["name"] = rp.Name
-	resp.Result = result.OK("", m)
+	resp.Result = result.OK(m)
 	return
 }

@@ -50,6 +50,6 @@ func (l *LoginLogic) Login(req *types.LoginRequest) (resp *types.LoginResponse, 
 	err, refreshToke := utils.GenerateToken(user.Id, user.Identity, user.UserName, define.RefreshTokenExpire)
 	m["token"] = s
 	m["refreshToke"] = refreshToke
-	resp.Result = result.OK("", m)
+	resp.Result = result.OK(m)
 	return
 }
