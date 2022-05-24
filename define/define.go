@@ -28,5 +28,12 @@ var DateTime = "2006-01-02 15:04:05"
 var TokenExpire = 3600
 var RefreshTokenExpire = 7200
 
-//gofastDfs的地址
-var GoFastUrl = "http://39.105.57.46:18080/group1"
+// Endpoint minio对象存储相关数据
+var Endpoint = "39.105.57.46:9000"
+var AccessKeyID = "cloud-disk"
+var SecretAccessKey = "cloud-disk"
+var BucketName = "cloud-disk"
+var BucketLocation = "beijing"
+
+// BucketPolicy 设置存储桶权限
+var BucketPolicy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetBucketLocation\",\"s3:ListBucket\",\"s3:ListBucketMultipartUploads\"],\"Resource\":[\"arn:aws:s3:::%s\"]},{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:AbortMultipartUpload\",\"s3:DeleteObject\",\"s3:GetObject\",\"s3:ListMultipartUploadParts\",\"s3:PutObject\"],\"Resource\":[\"arn:aws:s3:::%s/*\"]}]}"
