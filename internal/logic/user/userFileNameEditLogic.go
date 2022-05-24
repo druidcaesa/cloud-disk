@@ -38,7 +38,7 @@ func (l *UserFileNameEditLogic) UserFileNameEdit(req *types.UserFileNameEditRequ
 	ur.UserIdentity = userIdentity
 	ur.Identity = req.Identity
 	ur.Name = req.Name
-	_, err = ur.Edit(ur, l.svcCtx.Engine)
+	_, err = ur.Edit(l.svcCtx.Engine)
 	if err != nil {
 		resp.Result = result.ERROR(utils.FormatErrorLog(err))
 		return nil, err

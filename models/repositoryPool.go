@@ -35,3 +35,12 @@ func (p RepositoryPool) GetHashByRepositoryPool(hash string, sql *xorm.Engine) (
 func (p RepositoryPool) Insert(sql *xorm.Engine) (int64, error) {
 	return sql.Insert(&p)
 }
+
+// GetByIdentity 根据identity查询资源
+func (p RepositoryPool) GetByIdentity(identity string, engine *xorm.Engine) (*RepositoryPool, error) {
+	_, err := engine.Where("identity = ?", identity).Get(&p)
+	if err != nil {
+		return nil, err
+	}
+	return &p, nil
+}

@@ -63,13 +63,27 @@ func (ur UserRepository) GetFileNameByUser(req *types.UserFileNameEditRequest, e
 }
 
 // Edit 修改数据
-func (ur UserRepository) Edit(userRepository *UserRepository, engine *xorm.Engine) (int64, error) {
-	return engine.Where("identity=? AND user_identity=?", userRepository.Identity, userRepository.UserIdentity).Update(ur)
+func (ur UserRepository) Edit(engine *xorm.Engine) (int64, error) {
+	return engine.Where("identity=? AND user_identity=?", ur.Identity, ur.UserIdentity).Update(ur)
 }
 
 // GetByName 根据名称查询数据
 func (ur UserRepository) GetByName(engine *xorm.Engine) (*UserRepository, error) {
 	_, err := engine.Where("name = ? and parent_id = ?", ur.Name, ur.ParentId).Get(&ur)
+	if err != nil {
+		return nil, err
+	}
+	return &ur, nil
+}
+
+// Delete 删除用户文件数据
+func (ur UserRepository) Delete(engine *xorm.Engine) (int64, error) {
+	return engine.Where("identity = ? AND user_identity = ?", ur.Identity, ur.UserIdentity).Delete(&ur)
+}
+
+// GetByIdentityAndUserIdentity 根据Identity和UserIdentity查询资源
+func (ur UserRepository) GetByIdentityAndUserIdentity(engine *xorm.Engine) (*UserRepository, error) {
+	_, err := engine.Where("identity=? AND user_identity = ?", ur.Identity, ur.UserIdentity).Get(&ur)
 	if err != nil {
 		return nil, err
 	}

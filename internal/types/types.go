@@ -101,3 +101,50 @@ type UserDirCreateRequest struct {
 type UserDirCreateResponse struct {
 	Result
 }
+
+type UserDeleteFileRequest struct {
+	Identity string `json:"identity"`
+}
+
+type UserDeleteFileResponse struct {
+	Result
+}
+
+type UserFileMovedRequest struct {
+	Identity       string `json:"identity"`
+	ParentIdentity string `json:"parentIdentity"`
+}
+
+type UserFileMovedResponse struct {
+	Result
+}
+
+type ShareBasicCreateRequest struct {
+	UserRepositoryIdentity string `json:"userRepositoryIdentity"`
+	ExpiredTime            int64  `json:"expiredTime"`
+}
+
+type ShareBasicCreateResponse struct {
+	Result
+}
+
+type ShareBasicDetailRequest struct {
+	Identity string `json:"identity"`
+}
+
+type ShareBasicDetailResponse struct {
+	Result
+}
+
+type ShareBasicSaveRequest struct {
+	RepositoryIdentity string `json:"repositoryIdentity"`
+	ParentId           int64  `json:"parentId"`
+}
+
+type ShareBasicSaveResponse struct {
+	Result
+}
+
+type RefreshAuthorizationResponse struct {
+	Result
+}

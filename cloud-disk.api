@@ -101,6 +101,49 @@ type (
 	UserDirCreateResponse {
 		Result
 	}
+	//删除用户文件
+	UserDeleteFileRequest {
+		Identity string `json:"identity"`
+	}
+
+	UserDeleteFileResponse {
+		Result
+	}
+	//用户移动文件
+	UserFileMovedRequest {
+		Identity       string `json:"identity"`
+		ParentIdentity string `json:"parentIdentity"`
+	}
+	UserFileMovedResponse {
+		Result
+	}
+	//用户分享创建
+	ShareBasicCreateRequest {
+		UserRepositoryIdentity string `json:"userRepositoryIdentity"`
+		ExpiredTime            int64  `json:"expiredTime"`
+	}
+	ShareBasicCreateResponse {
+		Result
+	}
+	//获取资源数据
+	ShareBasicDetailRequest {
+		Identity string `json:"identity"`
+	}
+	ShareBasicDetailResponse {
+		Result
+	}
+	//资源保存
+	ShareBasicSaveRequest {
+		RepositoryIdentity string `json:"repositoryIdentity"`
+		ParentId           int64  `json:"parentId"`
+	}
+	ShareBasicSaveResponse {
+		Result
+	}
+	//刷新Token
+	RefreshAuthorizationResponse {
+		Result
+	}
 )
 service cloud-api {
 	@doc(
@@ -115,6 +158,9 @@ service cloud-api {
 	//获取验证码
 	@handler RegisterCode
 	get /registerCode (GetCodeRequest) returns (GetCodeResponse)
+	//获取资源详情
+	@handler ShareBasicDetail
+	get /share/basic/detail (ShareBasicDetailRequest) returns (ShareBasicDetailResponse)
 }
 
 @server(
@@ -138,6 +184,21 @@ service cloud-api {
 	//用户文件夹创建
 	@handler UserDirCreate
 	post /user/dir/create (UserDirCreateRequest) returns (UserDirCreateResponse)
+	//用户文件删除
+	@handler UserDeleteFile
+	delete /user/file/delete (UserDeleteFileRequest) returns (UserDeleteFileResponse)
+	//用户文件移动
+	@handler UserFileMoved
+	put /user/file/move (UserFileMovedRequest) returns (UserFileMovedResponse)
+	//创建分享记录
+	@handler ShareBasicCreate
+	post /user/share/basic/create (ShareBasicCreateRequest) returns (ShareBasicCreateResponse)
+	//资源保存
+	@handler ShareBasicSave
+	post /user/share/basic/save (ShareBasicSaveRequest) returns (ShareBasicSaveResponse)
+	//刷新Authorization
+	@handler RefreshAuthorization
+	post /user/refresh/authorization () returns (RefreshAuthorizationResponse)
 }
 
 @server(
