@@ -51,3 +51,17 @@ func (u User) GetUserByUsername(username string, engine *xorm.Engine) (*User, er
 	}
 	return &u, nil
 }
+
+// Insert 保存用户
+func (u User) Insert(user *User, engine *xorm.Engine) (int64, error) {
+	return engine.Insert(user)
+}
+
+// GetUserByEmailCount 根据邮箱查询数据库中是否有相同的
+func (u User) GetUserByEmailCount(email string, engine *xorm.Engine) int64 {
+	count, err := engine.Where("email = ?", email).Count(&u)
+	if err != nil {
+		return 0
+	}
+	return count
+}

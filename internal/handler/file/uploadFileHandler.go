@@ -34,17 +34,16 @@ func UploadFileHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 		hash := fmt.Sprintf("%x", md5.Sum(bytes))
 		//定义对象
-		rp := new(models.RepositoryPool)
 		//查询是否存在hash值,如果存在直接返回
-		get, err := rp.GetHashByRepositoryPool(hash, svcCtx.Engine)
+		get, err := models.RepositoryPool{}.GetHashByRepositoryPool(hash, svcCtx.Engine)
 		if err != nil {
 			return
 		}
-		if get {
+		if get != nil {
 			m := make(map[string]string)
-			m["identity"] = rp.Identity
-			m["ext"] = rp.Ext
-			m["name"] = rp.Name
+			m["identity"] = get.Identity
+			m["ext"] = get.Ext
+			m["name"] = get.Name
 			httpx.OkJson(w, &types.UploadFileResponse{
 				Result: result.OK("", m),
 			})

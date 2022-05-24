@@ -4,14 +4,18 @@ import (
 	"cloud-disk/define"
 	"context"
 	"crypto/md5"
+	"crypto/tls"
 	"errors"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
+	"github.com/jordan-wright/email"
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
 	uuid "github.com/satori/go.uuid"
 	"log"
+	"math/rand"
 	"net/http"
+	"net/smtp"
 	"path"
 	"time"
 )
@@ -95,5 +99,39 @@ func UploadFileToMinio(r *http.Request) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return define.Endpoint + "/" + define.BucketName + "/" + fileName, nil
+	return "http://" + define.Endpoint + "/" + define.BucketName + "/" + fileName, nil
+}
+
+// RandCode
+//生成随机吗
+func RandCode() string {
+	s := "1234567890"
+	code := ""
+	rand.Seed(time.Now().UnixNano())
+	for i := 0; i < define.CodeLength; i++ {
+		code += string(s[rand.Intn(len(s))])
+	}
+	return code
+}
+
+// MailSendCode 验证码发送
+func MailSendCode(mail, code string) error {
+	e := email.NewEmail()
+	e.From = "水牛云盘 <livefanyanan@163.com>"
+	e.To = []string{mail}
+	e.Subject = "验证码发送测试"
+	e.HTML = []byte(fmt.Sprintf("<pre style=\"font-family:Helvetica,arial,sans-serif;font-size:13px;color:#747474;text-align:left;line-height:18px\">欢迎使用水牛云盘，您的验证码为：<span style=\"font-size:block\">%s</span></pre>", code))
+	//err := e.Send("smtp.163.com:465", smtp.PlainAuth("", "livefanyanan@163.com", define.EmailPassword, "smtp.163.com"))
+	err := e.SendWithTLS("smtp.163.com:465", smtp.PlainAuth("", "livefanyanan@163.com", define.EmailPassword, "smtp.163.com"),
+		&tls.Config{InsecureSkipVerify: true, ServerName: "smtp.163.com"})
+	if err != nil {
+		log.Print(err)
+		return err
+	}
+	return nil
+}
+
+// FormatErrorLog 统一异常返回方法
+func FormatErrorLog(err error) string {
+	return fmt.Sprintf("服务发生异常-%s----请联系管理员", err.Error())
 }

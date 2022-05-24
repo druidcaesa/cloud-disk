@@ -23,8 +23,12 @@ func (p RepositoryPool) TableName() string {
 }
 
 // GetHashByRepositoryPool 根据hash查询文件存储池中是否存在相同的文件
-func (p RepositoryPool) GetHashByRepositoryPool(hash string, sql *xorm.Engine) (bool, error) {
-	return sql.Where("hash=?", hash).Get(&p)
+func (p RepositoryPool) GetHashByRepositoryPool(hash string, sql *xorm.Engine) (*RepositoryPool, error) {
+	_, err := sql.Where("hash=?", hash).Get(&p)
+	if err != nil {
+		return nil, err
+	}
+	return &p, nil
 }
 
 // Insert 保存文件存储池数据

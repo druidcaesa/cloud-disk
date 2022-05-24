@@ -24,6 +24,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/register",
 				Handler: RegisterHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/registerCode",
+				Handler: RegisterCodeHandler(serverCtx),
+			},
 		},
 	)
 
@@ -35,6 +40,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodGet,
 					Path:    "/user/detail",
 					Handler: user.UserDetailHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/user/repository/link",
+					Handler: user.UserRepositoryLinkHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/user/file/list",
+					Handler: user.UserFileListHandler(serverCtx),
 				},
 			}...,
 		),

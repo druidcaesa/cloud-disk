@@ -1,87 +1,130 @@
 syntax = "v1"
 
 info(
-	title: "cloud-api"
-	desc: "go-zero/go-fastdfs"
-	author: "Fan YaNan"
-	email: "hbsjzfynxm@gmail.com"
-	version: "0.0.1"
+    title: "cloud-api"
+    desc: "go-zero/go-fastdfs"
+    author: "Fan YaNan"
+    email: "hbsjzfynxm@gmail.com"
+    version: "0.0.1"
 )
 
 type (
-	Result {
-		Code    int         `json:"code"`
-		Data    interface{} `json:"data"`
-		Message string      `json:"message"`
-	}
-	//登录结构体
-	LoginRequest {
-		UserName string `json:"userName"`
-		Password string `json:"password"`
-	}
-	LoginResponse {
-		Result
-	}
-	//邮箱注册
-	RegisterRequest {
-		//用户名
-		UserName string `json:"userName"`
-		Password string `json:"password"`
-		Email    string `json:"email"`
-		//验证码
-		Code string `json:"code"`
-	}
-	RegisterResponse {
-		Result
-	}
-	//用户详细数据
-	UserInfoRequest {
-	}
-	UserInfoResponse {
-		Result
-	}
-	//文件上传数据定义
-	UploadFileRequest {
-		Hash string `json:"hash,optional"`
-		Name string `json:"name,optional"`
-		Ext  string `json:"ext,optional"`
-		Size int64  `json:"size,optional"`
-		Path string `json:"path,optional"`
-	}
-	UploadFileResponse {
-		Result
-	}
+    UserFile {
+        Id int64 `json:"id"`
+        Name string `json:"name"`
+        RepositoryIdentity string `json:"repositoryIdentity"`
+        Identity string `json:"identity"`
+        Ext string `json:"ext"`
+        Path string `json:"path"`
+    }
+    Result {
+        Code int `json:"code"`
+        Data interface{} `json:"data"`
+        Message string `json:"message"`
+    }
+        //登录结构体
+    LoginRequest {
+        UserName string `json:"userName"`
+        Password string `json:"password"`
+    }
+    LoginResponse {
+        Result
+    }
+        //邮箱注册
+    RegisterRequest {
+        //用户名
+        UserName string `json:"userName"`
+        Password string `json:"password"`
+        Email string `json:"email"`
+        //验证码
+        Code string `json:"code"`
+    }
+    RegisterResponse {
+        Result
+    }
+        //获取验证码结构
+    GetCodeRequest {
+        Email string `json:"email"` //用户邮箱
+    }
+    GetCodeResponse {
+        Result
+    }
+        //用户详细数据
+    UserInfoRequest {
+    }
+    UserInfoResponse {
+        Result
+    }
+        //文件上传数据定义
+    UploadFileRequest {
+        Hash string `json:"hash,optional"`
+        Name string `json:"name,optional"`
+        Ext string `json:"ext,optional"`
+        Size int64 `json:"size,optional"`
+        Path string `json:"path,optional"`
+    }
+    UploadFileResponse {
+        Result
+    }
+        //用户文件关联
+    UserRepositoryLinkRequest {
+        ParentId int64 `json:"parentId"`
+        RepositoryIdentity string `json:"repositoryIdentity"`
+        Ext string `json:"ext"`
+        Name string `json:"name"`
+    }
+    UserRepositoryLinkResponse {
+        Result
+    }
+        //用户文件列表
+    UserFileListRequest {
+        Id int64 `json:"id,optional"`
+        Page int `json:"page,optional"`
+        Size int `json:"size,optional"`
+    }
+    UserFileListResponse {
+        Result
+    }
 )
 service cloud-api {
-	@doc(
-		summary: "public interface"
-		desc: "register,login"
-	)
-	@handler Login
-	post /login (LoginRequest) returns (LoginResponse)
-	//邮箱注册
-	@handler Register
-	post /register (RegisterRequest) returns (RegisterResponse)
+    @doc(
+        summary: "public interface"
+        desc: "register,login"
+    )
+    @handler Login
+    post /login (LoginRequest) returns (LoginResponse)
+    //邮箱注册
+    @handler Register
+    post /register (RegisterRequest) returns (RegisterResponse)
+    //获取验证码
+    @handler RegisterCode
+    get /registerCode (GetCodeRequest) returns (GetCodeResponse)
 }
 
 @server(
-	middleware: Auth
-	group: user
+    middleware: Auth
+    group: user
 )
 
 service cloud-api {
-	//查询用户详情
-	@handler UserDetail
-	get /user/detail (UserInfoRequest) returns (UserInfoResponse)
+    //查询用户详情
+    @handler UserDetail
+    get /user/detail (UserInfoRequest) returns (UserInfoResponse)
+    //用户文件关联
+    @handler UserRepositoryLink
+    post /user/repository/link (UserRepositoryLinkRequest) returns (UserRepositoryLinkResponse)
+    //获取用户列表
+    @handler UserFileList
+    get /user/file/list (UserFileListRequest) returns (UserFileListResponse)
 }
 
 @server(
-	middleware: Auth
-	group: file
+    middleware: Auth
+    group: file
 )
 
 service cloud-api {
-	//文件上传
-	@handler UploadFile
-	post /file/upload (UploadFileRequest) returns (UploadFileResponse)
+    //文件上传
+    @handler UploadFile
+    post /file/upload (UploadFileRequest) returns (UploadFileResponse)
 }
