@@ -16,9 +16,8 @@ func RegisterCodeHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			httpx.Error(w, err)
 			return
 		}
-
 		l := logic.NewRegisterCodeLogic(r.Context(), svcCtx)
-		resp, err := l.RegisterCode(&req)
+		resp, err := l.RegisterCode(&req, r.URL.Query().Get("email"))
 		if err != nil {
 			httpx.Error(w, err)
 		} else {

@@ -44,7 +44,7 @@ type (
 	}
 	//获取验证码结构
 	GetCodeRequest {
-		Email string `json:"email"` //用户邮箱
+		Email string `form:"email"` //用户邮箱
 	}
 	GetCodeResponse {
 		Result
@@ -78,9 +78,9 @@ type (
 	}
 	//用户文件列表
 	UserFileListRequest {
-		Id   int64 `json:"id,optional"`
-		Page int   `json:"page,optional"`
-		Size int   `json:"size,optional"`
+		Id   int64 `form:"id,optional"`
+		Page int   `form:"page"`
+		Size int   `form:"size"`
 	}
 	UserFileListResponse {
 		Result

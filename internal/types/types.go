@@ -37,7 +37,7 @@ type RegisterResponse struct {
 }
 
 type GetCodeRequest struct {
-	Email string `json:"email"` //用户邮箱
+	Email string `form:"email"` //用户邮箱
 }
 
 type GetCodeResponse struct {
@@ -75,9 +75,9 @@ type UserRepositoryLinkResponse struct {
 }
 
 type UserFileListRequest struct {
-	Id   int64 `json:"id,optional"`
-	Page int   `json:"page,optional"`
-	Size int   `json:"size,optional"`
+	Id   int64 `form:"id,optional"`
+	Page int   `form:"page"`
+	Size int   `form:"size"`
 }
 
 type UserFileListResponse struct {

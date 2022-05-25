@@ -2,6 +2,7 @@ package user
 
 import (
 	"net/http"
+	"strconv"
 
 	"cloud-disk/internal/logic/user"
 	"cloud-disk/internal/svc"
@@ -19,6 +20,14 @@ func UserFileListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 
 		l := user.NewUserFileListLogic(r.Context(), svcCtx)
 		resp, err := l.UserFileList(&req, r.Header.Get("UserIdentity"))
+		//获取参数
+		query := r.URL.Query()
+		id, _ := strconv.Atoi(query.Get("id"))
+		req.Id = int64(id)
+		page, _ := strconv.Atoi(query.Get("page"))
+		req.Page = page
+		size, _ := strconv.Atoi(query.Get("size"))
+		req.Size = size
 		if err != nil {
 			httpx.Error(w, err)
 		} else {

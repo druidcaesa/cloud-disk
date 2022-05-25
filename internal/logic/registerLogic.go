@@ -39,10 +39,7 @@ func (l *RegisterLogic) Register(req *types.RegisterRequest) (resp *types.Regist
 		return resp, nil
 	}
 	//判断用户名是否存在
-	u, err := models.User{}.GetUserByUsername(req.UserName, l.svcCtx.Engine)
-	if err != nil {
-		return nil, err
-	}
+	u, _ := models.User{}.GetUserByUsername(req.UserName, l.svcCtx.Engine)
 	if u != nil {
 		resp.Result = result.ERROR("用户名已存在")
 		return resp, nil

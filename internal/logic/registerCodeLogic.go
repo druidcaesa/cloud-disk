@@ -28,10 +28,10 @@ func NewRegisterCodeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Regi
 	}
 }
 
-func (l *RegisterCodeLogic) RegisterCode(req *types.GetCodeRequest) (resp *types.GetCodeResponse, err error) {
+func (l *RegisterCodeLogic) RegisterCode(req *types.GetCodeRequest, email string) (resp *types.GetCodeResponse, err error) {
 	resp = &types.GetCodeResponse{}
 	//查询邮箱是否被注册
-	count := models.User{}.GetUserByEmailCount(req.Email, l.svcCtx.Engine)
+	count := models.User{}.GetUserByEmailCount(email, l.svcCtx.Engine)
 	if count > 0 {
 		resp.Result = result.ERROR("邮箱已经被注册")
 		return resp, nil
