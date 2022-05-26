@@ -117,12 +117,11 @@ func RandCode() string {
 // MailSendCode 验证码发送
 func MailSendCode(mail, code string) error {
 	e := email.NewEmail()
-	e.From = "水牛云盘 <livefanyanan@163.com>"
+	e.From = "水牛云盘 <your email>"
 	e.To = []string{mail}
 	e.Subject = "验证码发送测试"
 	e.HTML = []byte(fmt.Sprintf("<pre style=\"font-family:Helvetica,arial,sans-serif;font-size:13px;color:#747474;text-align:left;line-height:18px\">欢迎使用水牛云盘，您的验证码为：<span style=\"font-size:block\">%s</span></pre>", code))
-	//err := e.Send("smtp.163.com:465", smtp.PlainAuth("", "livefanyanan@163.com", define.EmailPassword, "smtp.163.com"))
-	err := e.SendWithTLS("smtp.163.com:465", smtp.PlainAuth("", "livefanyanan@163.com", define.EmailPassword, "smtp.163.com"),
+	err := e.SendWithTLS("smtp.163.com:465", smtp.PlainAuth("", "your-email", define.EmailPassword, "smtp.163.com"),
 		&tls.Config{InsecureSkipVerify: true, ServerName: "smtp.163.com"})
 	if err != nil {
 		log.Print(err)

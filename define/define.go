@@ -12,7 +12,7 @@ type UserClaim struct {
 }
 
 var JwtKey = "cloud-disk-key"
-var EmailPassword = "QMHFCTQOAJDGGBMG"
+var EmailPassword = "your-email-password"
 var CodeLength = 6
 
 // CodeExpire 验证码过器时间
@@ -29,7 +29,7 @@ var TokenExpire = 3600
 var RefreshTokenExpire = 7200
 
 // Endpoint minio对象存储相关数据
-var Endpoint = "39.105.57.46:9000"
+var Endpoint = "loaclhost:9000"
 var AccessKeyID = "cloud-disk"
 var SecretAccessKey = "cloud-disk"
 var BucketName = "cloud-disk"
