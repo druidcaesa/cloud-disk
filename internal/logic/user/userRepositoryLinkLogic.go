@@ -38,6 +38,12 @@ func (l *UserRepositoryLinkLogic) UserRepositoryLink(req *types.UserRepositoryLi
 		Name:               req.Name,
 		Type:               req.Type,
 	}
+	//先查询文件是否已经存在关联
+	identity, _ := ur.GetByRepositoryIdentityAndUserIdentity(l.svcCtx.Engine)
+	if identity > 0 {
+		resp.Result = result.ERROR(fmt.Sprintf("%s该文件已经存在！", ur.Name))
+		return resp, nil
+	}
 	_, err = ur.Insert(l.svcCtx.Engine)
 	if err != nil {
 		resp.Result = result.ERROR(fmt.Sprintf("数据库发生异常%s", err.Error()))

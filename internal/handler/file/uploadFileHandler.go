@@ -44,6 +44,7 @@ func UploadFileHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			m["identity"] = get.Identity
 			m["ext"] = get.Ext
 			m["name"] = get.Name
+			m["type"] = get.Type
 			httpx.OkJson(w, &types.UploadFileResponse{
 				Result: result.OK("", m),
 			})
