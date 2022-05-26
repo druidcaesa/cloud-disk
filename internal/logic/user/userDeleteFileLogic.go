@@ -28,11 +28,28 @@ func NewUserDeleteFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Us
 
 func (l *UserDeleteFileLogic) UserDeleteFile(req *types.UserDeleteFileRequest, userIdentity string) (resp *types.UserDeleteFileResponse, err error) {
 	resp = &types.UserDeleteFileResponse{}
-	//删除用户文件
-	// TODO 这里后期应该会有下级文件或者文件夹的删除逻辑，目前先简单处理。实际逻辑请自行处理
 	ur := new(models.UserRepository)
 	ur.Identity = req.Identity
 	ur.UserIdentity = userIdentity
+	//查询判断文件夹下面是否有文件
+	u, err := ur.GetByIdentityAndUserIdentity(l.svcCtx.Engine)
+	if err != nil {
+		resp.Result = result.ERROR(utils.FormatErrorLog(err))
+		return resp, nil
+	}
+	if u.Id != 0 {
+		count, err := ur.GetParentIdCount(u.Id, l.svcCtx.Engine)
+		if err != nil {
+			resp.Result = result.ERROR(utils.FormatErrorLog(err))
+			return resp, nil
+		}
+		if count > 0 {
+			resp.Result = result.ERROR("该文件夹下存在文件，请先删除或者转移")
+			return resp, nil
+
+		}
+	}
+	//删除用户文件
 	_, err = ur.Delete(l.svcCtx.Engine)
 	if err != nil {
 		resp.Result = result.ERROR(utils.FormatErrorLog(err))

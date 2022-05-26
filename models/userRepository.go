@@ -8,13 +8,14 @@ import (
 )
 
 type UserRepository struct {
-	Id                 int
+	Id                 int `json:"id"`
 	Identity           string
 	UserIdentity       string
-	ParentId           int64
+	ParentId           int64 `json:"parentId"`
 	RepositoryIdentity string
-	Ext                string
-	Name               string
+	Ext                string    `json:"ext"`
+	Name               string    `json:"name"`
+	Type               string    `json:"type"`
 	CreateTime         time.Time `xorm:"created"`
 	UpdateTime         time.Time `xorm:"updated"`
 	DeleteTime         time.Time `xorm:"deleted"`
@@ -41,11 +42,17 @@ func (ur UserRepository) UserFileList(req *types.UserFileListRequest, userIdenti
 	if page == 0 {
 		page = 1
 	}
-	err := engine.Table("user_repository").Where("parent_id=? and user_identity=?", req.Id, userIdentity).
-		Select("user_repository.id,user_repository.identity,user_repository.repository_identity,user_repository.ext,"+
-			"user_repository.name,repository_pool.path,repository_pool.size").
+	session := engine.NewSession()
+	//判断类型
+	if req.Type != "all" {
+		session = engine.Table("user_repository").Where("parent_id=? and user_identity=? and user_repository.type = ?", req.Id, userIdentity, req.Type)
+	} else {
+		session = engine.Table("user_repository").Where("parent_id=? and user_identity=?", req.Id, userIdentity)
+	}
+	err := session.Select("user_repository.id,user_repository.identity,user_repository.parent_id,user_repository.type,user_repository.repository_identity,user_repository.ext,"+
+		"user_repository.name,repository_pool.path,repository_pool.size").
 		Join("LEFT", "repository_pool", "user_repository.repository_identity=repository_pool.identity").
-		Where("user_repository.delete_time = ? OR user_repository.delete_time IS NULL", time.Time{}.Format(define.DateTime)).
+		Where("user_repository.delete_time = ? OR user_repository.delete_time IS NULL", time.Time{}.Format(define.DateTime)).OrderBy("ext").
 		Limit(size, (page-1)*size).Find(&uf)
 	if err != nil {
 		return nil, err
@@ -88,4 +95,18 @@ func (ur UserRepository) GetByIdentityAndUserIdentity(engine *xorm.Engine) (*Use
 		return nil, err
 	}
 	return &ur, nil
+}
+
+// GetUserById 根据Identity和UserIdentity查询资源
+func (ur UserRepository) GetUserById(engine *xorm.Engine) (*UserRepository, error) {
+	_, err := engine.Where("id=? AND user_identity = ?", ur.Id, ur.UserIdentity).Get(&ur)
+	if err != nil {
+		return nil, err
+	}
+	return &ur, nil
+}
+
+//根据parentId查询下面是否有文件
+func (ur UserRepository) GetParentIdCount(parent int, engine *xorm.Engine) (int64, error) {
+	return engine.Table(ur.TableName()).Where("parent_id = ? And user_identity = ?", parent, ur.UserIdentity).Where("delete_time = ? OR delete_time IS NULL", time.Time{}.Format(define.DateTime)).Count()
 }

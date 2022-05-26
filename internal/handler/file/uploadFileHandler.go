@@ -39,7 +39,7 @@ func UploadFileHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		if err != nil {
 			return
 		}
-		if get != nil {
+		if get.Id > 0 {
 			m := make(map[string]string)
 			m["identity"] = get.Identity
 			m["ext"] = get.Ext

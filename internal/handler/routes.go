@@ -91,6 +91,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Path:    "/user/refresh/authorization",
 					Handler: user.RefreshAuthorizationHandler(serverCtx),
 				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/user/repository/by/id",
+					Handler: user.GetUserRepostoryByIdHandler(serverCtx),
+				},
 			}...,
 		),
 	)

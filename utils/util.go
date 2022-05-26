@@ -135,3 +135,22 @@ func MailSendCode(mail, code string) error {
 func FormatErrorLog(err error) string {
 	return fmt.Sprintf("服务发生异常-%s----请联系管理员", err.Error())
 }
+
+func GetFileType(ext string) string {
+	for _, video := range define.Videos {
+		if ext == video {
+			return "video"
+		}
+	}
+	for _, image := range define.Image {
+		if ext == image {
+			return "image"
+		}
+	}
+	for _, doc := range define.Doc {
+		if ext == doc {
+			return "doc"
+		}
+	}
+	return "other"
+}

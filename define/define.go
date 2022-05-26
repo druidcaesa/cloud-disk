@@ -38,3 +38,9 @@ var SSLBool = false
 
 // BucketPolicy 设置存储桶权限
 var BucketPolicy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetBucketLocation\",\"s3:ListBucket\",\"s3:ListBucketMultipartUploads\"],\"Resource\":[\"arn:aws:s3:::%s\"]},{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:AbortMultipartUpload\",\"s3:DeleteObject\",\"s3:GetObject\",\"s3:ListMultipartUploadParts\",\"s3:PutObject\"],\"Resource\":[\"arn:aws:s3:::%s/*\"]}]}"
+
+//文件后缀判断
+var Videos = []string{".avi", ".wmv", ".mpg", "mpeg", ".mov", ".rm", ".ram", ".swf", ".flv", ".mp4"}
+var Image = []string{".xbm", ".tif", "pjp", ".svgz", "jpg", "jpeg", "ico", "tiff", ".gif", ".svg", ".jfif", ".webp", ".png", ".bmp", "pjpeg", ".avif"}
+var Doc = []string{".pdf", ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".md"}
+var Other = append(append(Videos, Image...), Doc...)

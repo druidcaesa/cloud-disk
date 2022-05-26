@@ -3,6 +3,8 @@ package types
 
 type UserFile struct {
 	Id                 int64  `json:"id"`
+	ParentId           int64  `json:"parentId";xorm:"parent_id"`
+	Type               string `json:"type"`
 	Name               string `json:"name"`
 	RepositoryIdentity string `json:"repositoryIdentity"`
 	Identity           string `json:"identity"`
@@ -68,6 +70,7 @@ type UserRepositoryLinkRequest struct {
 	RepositoryIdentity string `json:"repositoryIdentity"`
 	Ext                string `json:"ext"`
 	Name               string `json:"name"`
+	Type               string `json:"type"`
 }
 
 type UserRepositoryLinkResponse struct {
@@ -75,9 +78,10 @@ type UserRepositoryLinkResponse struct {
 }
 
 type UserFileListRequest struct {
-	Id   int64 `form:"id,optional"`
-	Page int   `form:"page"`
-	Size int   `form:"size"`
+	Id   int64  `form:"id,optional"`
+	Page int    `form:"page"`
+	Size int    `form:"size"`
+	Type string `form:"type"`
 }
 
 type UserFileListResponse struct {
@@ -103,7 +107,7 @@ type UserDirCreateResponse struct {
 }
 
 type UserDeleteFileRequest struct {
-	Identity string `json:"identity"`
+	Identity string `json:"identity,optional";form:"identity"`
 }
 
 type UserDeleteFileResponse struct {
@@ -146,5 +150,13 @@ type ShareBasicSaveResponse struct {
 }
 
 type RefreshAuthorizationResponse struct {
+	Result
+}
+
+type GetUserRepostoryByIdRequest struct {
+	Id int `form:"id"`
+}
+
+type GetUserRepostoryByIdResponse struct {
 	Result
 }

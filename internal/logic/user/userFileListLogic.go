@@ -34,7 +34,13 @@ func (l *UserFileListLogic) UserFileList(req *types.UserFileListRequest, userIde
 		return resp, nil
 	}
 	//获取条数
-	count, err := l.svcCtx.Engine.Table("user_repository").Where("parent_id=? and user_identity=?", req.Id, userIdentity).Count(new(models.UserRepository))
+	session := l.svcCtx.Engine.NewSession()
+	session = session.Table("user_repository").Where("parent_id=? and user_identity=?", req.Id, userIdentity)
+	if req.Type != "all" {
+		session = session.Table("user_repository").Where("parent_id=? and user_identity=? and type = ?", req.Id, userIdentity, req.Type)
+
+	}
+	count, err := session.Count(new(models.UserRepository))
 	if err != nil {
 		resp.Result = result.ERROR(utils.FormatErrorLog(err))
 		return resp, nil

@@ -11,6 +11,8 @@ info(
 type (
 	UserFile {
 		Id                 int64  `json:"id"`
+		ParentId           int64  `json:"parentId";xorm:"parent_id"`
+		Type               string `json:"type"`
 		Name               string `json:"name"`
 		RepositoryIdentity string `json:"repositoryIdentity"`
 		Identity           string `json:"identity"`
@@ -72,6 +74,7 @@ type (
 		RepositoryIdentity string `json:"repositoryIdentity"`
 		Ext                string `json:"ext"`
 		Name               string `json:"name"`
+		Type               string `json:"type"`
 	}
 	UserRepositoryLinkResponse {
 		Result
@@ -103,7 +106,7 @@ type (
 	}
 	//删除用户文件
 	UserDeleteFileRequest {
-		Identity string `json:"identity"`
+		Identity string `json:"identity,optional";form:"identity"`
 	}
 
 	UserDeleteFileResponse {
@@ -142,6 +145,13 @@ type (
 	}
 	//刷新Token
 	RefreshAuthorizationResponse {
+		Result
+	}
+	//用户id查询
+	GetUserRepostoryByIdRequest {
+		Id int `form:"id"`
+	}
+	GetUserRepostoryByIdResponse {
 		Result
 	}
 )
@@ -199,6 +209,9 @@ service cloud-api {
 	//刷新Authorization
 	@handler RefreshAuthorization
 	post /user/refresh/authorization () returns (RefreshAuthorizationResponse)
+	//根据用户池id查询数据
+	@handler GetUserRepostoryById
+	get /user/repository/by/id (GetUserRepostoryByIdRequest) returns (GetUserRepostoryByIdResponse)
 }
 
 @server(

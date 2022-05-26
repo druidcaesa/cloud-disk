@@ -13,6 +13,7 @@ type RepositoryPool struct {
 	Ext        string
 	Size       int64
 	Path       string
+	Type       string
 	CreateTime time.Time `xorm:"created"`
 	UpdateTime time.Time `xorm:"updated"`
 	DeleteTime time.Time `xorm:"deleted"`

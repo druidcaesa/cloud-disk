@@ -34,6 +34,7 @@ func (l *UploadFileLogic) UploadFile(req *types.UploadFileRequest) (resp *types.
 		Ext:      req.Ext,
 		Size:     req.Size,
 		Path:     req.Path,
+		Type:     utils.GetFileType(req.Ext),
 	}
 	_, err = rp.Insert(l.svcCtx.Engine)
 	if err != nil {
@@ -44,6 +45,7 @@ func (l *UploadFileLogic) UploadFile(req *types.UploadFileRequest) (resp *types.
 	m["identity"] = rp.Identity
 	m["ext"] = rp.Ext
 	m["name"] = rp.Name
+	m["type"] = rp.Type
 	resp.Result = result.OK(m)
 	return
 }

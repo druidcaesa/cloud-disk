@@ -28,6 +28,7 @@ func UserFileListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		req.Page = page
 		size, _ := strconv.Atoi(query.Get("size"))
 		req.Size = size
+		req.Type = query.Get("type")
 		if err != nil {
 			httpx.Error(w, err)
 		} else {

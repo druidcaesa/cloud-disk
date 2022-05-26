@@ -36,6 +36,7 @@ func (l *UserRepositoryLinkLogic) UserRepositoryLink(req *types.UserRepositoryLi
 		RepositoryIdentity: req.RepositoryIdentity,
 		Ext:                req.Ext,
 		Name:               req.Name,
+		Type:               req.Type,
 	}
 	_, err = ur.Insert(l.svcCtx.Engine)
 	if err != nil {
