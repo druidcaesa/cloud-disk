@@ -1,5 +1,19 @@
 # 后端程序运行
 
+## 项目说明
+很早之前一直想写一个自己的网盘系统，用来存储自己工作和生活中的文件和图片等资料，但是因为
+
+工作比较繁忙，一直没有时间进行实施。最近这段时间正好换工作，中间留出来了一个星期左右的空档，
+
+就用这一周多的时间使用go语言来开发了这个网盘系统，并且开源出来。
+
+选择golang开发而不用试java的原因，一是个人喜好问题，二就是自己家里的有一个闲置的2G的树莓派，
+
+因为内存太小，若是运行动不动就几百上G的java程序负担比较大，而go打包下来才100M使用docker，
+
+容器话部署，整体运行不到1G内存，所以最终选择了Go来开发这个项目
+
+
 ### 一、架构
 
 #### 后端
@@ -105,3 +119,16 @@ Redis:
  #API生成命令
  goctl api go -api cloud-disk.api -dir . -style goZero
 ```
+
+### 七、效果展示
+
+
+![img.png](doc/img-login.png)
+
+![img.png](doc/img-index1.png)
+
+![img.png](doc/img-index2.png)
+
+![img.png](doc/img-index3.png)
+
+![img.png](doc/img-index4.png)
