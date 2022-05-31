@@ -9,7 +9,7 @@
 
 存储：minIO 对象存储
 
-### 前端
+#### 前端
 Vue2 + Electron +Element-UI
 
 ### 二、环境准备
